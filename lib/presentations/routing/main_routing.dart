@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
-import 'package:flute_quickboot/presentations/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:test_flutter/presentations/home/home_screen.dart';
 
 class MainRouteLocation extends BeamLocation<BeamState> {
   MainRouteLocation(super.routeInformation);

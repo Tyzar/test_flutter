@@ -1,8 +1,7 @@
 import 'package:beamer/beamer.dart';
-import 'package:flute_quickboot/presentations/routing/home_routing.dart';
-import 'package:flute_quickboot/presentations/widgets/bottom_nav.dart';
-import 'package:flute_quickboot/utils/constants/asset_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:test_flutter/presentations/routing/home_routing.dart';
+import 'package:test_flutter/presentations/widgets/bottom_nav.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,10 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   final navDests = [
-    NavDestSvg('/home', iconPath: assetIconHome, label: 'Home'),
-    NavDestSvg('/wishlist', iconPath: assetIconHeart, label: 'Wishlist'),
-    NavDestSvg('/shop', iconPath: assetIconShop, label: 'Shop'),
-    NavDestSvg('/info', iconPath: assetIconNotif, label: 'Info')
+    NavDestSvg('/test1', iconPath: '', label: 'Test 1'),
+    NavDestSvg('/test2', iconPath: '', label: 'Test 2'),
+    NavDestSvg('/test3', iconPath: '', label: 'Test 3'),
+    NavDestSvg('/photos', iconPath: '', label: 'Photos'),    
   ];
 
   @override
@@ -36,21 +35,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
           child: Beamer(key: _homeNavKey, routerDelegate: _homeRouteDelegate)),
       bottomNavigationBar: ValueListenableBuilder(
-        valueListenable: selectedIdx,
-        builder: (context, value, child) => NavBarWithSvgs(
-          selectedIndex: value,
-          iconColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-          selectedIconColor: Theme.of(context).colorScheme.onPrimary,
-          navCount: navDests.length,
-          destBuilder: (context, index) => navDests[index],
-          onDestinationSelected: (idx) {
-            _homeNavKey.currentContext?.beamToReplacementNamed(
-              navDests[idx].uri,
-            );
-            selectedIdx.value = idx;
-          },
-        ),
-      ),
+          valueListenable: selectedIdx,
+          builder: (context, value, child) => NavigationBar(
+            selectedIndex: value,
+              onDestinationSelected: (value) {
+                selectedIdx.value = value;
+                _homeRouteDelegate.beamToReplacementNamed(
+                    navDests[value].uri,
+                  );
+              },
+              destinations: navDests
+                  .map(
+                    (e) => NavigationDestination(
+                      icon: const Icon(Icons.book_outlined),
+                      label: e.label,
+                    ),
+                  )
+                  .toList())),
     );
   }
 }
